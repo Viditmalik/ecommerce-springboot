@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>All Orders</h2>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.user.name}"></td>
+                <td>₹ <span th:text="${order.totalAmount}"></span></td>
+                <td th:text="${order.status}"></td>
+                <td th:text="${#temporals.format(order.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
+                <td>
+                    <div th:if="${currentUser.role == 'ADMIN'}">
+                        <form th:action="@{/orders/update/{id}(id=${order.id})}" method="post" class="d-flex gap-2">
+                            <select name="status" class="form-select form-select-sm">
+                                <option value="PENDING" th:selected="${order.status=='PENDING'}">PENDING</option>
+                                <option value="COMPLETED" th:selected="${order.status=='COMPLETED'}">COMPLETED</option>
+                                <option value="CANCELLED" th:selected="${order.status=='CANCELLED'}">CANCELLED</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/home}" class="btn btn-secondary mt-3">Home</a>
+</div>
+</body>
+</html>

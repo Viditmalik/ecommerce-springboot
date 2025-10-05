@@ -13,7 +13,10 @@ import com.ecommerce.repository.ProductRepository;
 public class ProductService {
 	
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductRepository productRepository
+
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	//Method to list all the products
 	 public List<Product> getAllProducts() {
@@ -27,8 +30,12 @@ public class ProductService {
 	        return productRepository.save(product);
 	    }
 
-	    public void deleteProduct(Long id) {
-	        productRepository.deleteById(id);
-	    }
+	   	    @Transactional
+	    public void deleteProduct(Long productId) {
+	        // Delete all order items that reference this product
+	        orderItemRepository.deleteByProductId(productId);
 
+	        // Now delete the product itself
+	        productRepository.deleteById(productId);
+	    }
 }

@@ -16,9 +16,6 @@ A full-stack E-Commerce application built using **Spring Boot**, **Thymeleaf**, 
 - Frontend: Bootstrap + Thymeleaf
 - Tools: Postman, GitHub
 
-## Screenshots
-*(Add screenshots here of your UI)*
-
 ## Future Integration
 This project includes REST Controllers to allow integration with **React** or **Angular** in the future.
 
